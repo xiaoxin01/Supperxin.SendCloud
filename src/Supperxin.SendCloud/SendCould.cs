@@ -115,34 +115,14 @@ namespace Supperxin.SendCloud
                 throw new ArgumentNullException("credential can't be null!");
             }
 
-            var formData = new Dictionary<string, string>();
-            formData.Add(IdParaName, credential.Id);
-            formData.Add(KeyParaName, credential.Key);
-            formData.Add(SubjectParaName, subject);
-            formData.Add(HtmlParaName, html);
-            formData.Add(FromParaName, from);
-            formData.Add(ToParaName, to);
+            var message = new SendCloudMessage(){
+                Subject = subject,
+                Html = html,
+                From = new MailAddress(from),
+                To = new List<MailAddress>(){new MailAddress(to)}
+            };
 
-            try
-            {
-                var resultJson = HttpService.HttpPost(ApiUrl, formData, Encoding.UTF8);
-                var jObject = JObject.Parse(resultJson);
-                var result = jObject.ToObject<SendCloudResult>();
-                return Task.FromResult<SendResult>(new SendResult()
-                {
-                    Successful = result.result,
-                    ErrorMessage = result.message,
-                    Result = result.message
-                });
-            }
-            catch (Exception ex)
-            {
-                return Task.FromResult<SendResult>(new SendResult()
-                {
-                    Successful = false,
-                    ErrorMessage = ex.Message
-                });
-            }
+            return SendMail(message, credential);
         }
     }
 }
