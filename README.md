@@ -2,7 +2,21 @@
 
 SendCloud发送Mail的 .NET Core 版本，可以在 Asp.Net Core中利用SendCould来发送Mail
 
-# 用法
+# 安装
+
+    Install-Package Supperxin.SendCloud
+
+package information:
+
+    https://www.nuget.org/packages/Supperxin.SendCloud
+
+# 使用
+
+添加命名空间：
+
+```c#
+using Supperxin.SendCloud;
+```
 
 提供两个方法发送Mail：
 
@@ -27,7 +41,7 @@ var from = config["MailFrom"];
 var to = config["MailTo"];
 
 var result = SendCould.SendMail(subject, html, from, to, credential).Result;
-Assert.True(result.Successful);
+//Assert.True(result.Successful);
 ```
 
 方法2：
@@ -58,6 +72,6 @@ var message = new SendCloudMessage(){
 };
 
 var result = SendCould.SendMail(message, credential).Result;
-Assert.True(result.Successful);
+//Assert.True(result.Successful);
 ```
 
